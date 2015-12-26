@@ -23,7 +23,9 @@ import java.util.Map;
 
 /**
  * Created by Mai on 2015/11/10.
+ *
  */
+
 @Component("blAliPayPartnerCheckoutLinkProcessor")
 public class AliPayPartnerCheckoutLinkProcessor extends AbstractAttributeModifierAttrProcessor {
 
@@ -49,9 +51,6 @@ public class AliPayPartnerCheckoutLinkProcessor extends AbstractAttributeModifie
     @Override
     protected Map<String, String> getModifiedAttributeValues(final Arguments arguments, final Element element, final String attributeName) {
 
-
-
-
         final Map<String,String> attrs = new HashMap<String, String>();
 
         final Configuration configuration = arguments.getConfiguration();
@@ -64,15 +63,11 @@ public class AliPayPartnerCheckoutLinkProcessor extends AbstractAttributeModifie
 
         final PaymentRequestDTO requestDTO = (PaymentRequestDTO) expression.execute(configuration,arguments);
 
-        String url = "";
-
         AliPayPaymentRequest paymentRequest = requestTranslator.translate(requestDTO);
 
         String signedQueryString = requestGenerator.buildRequest(paymentRequest);
 
-        url = aliPayConfiguration.getServerUrl() + signedQueryString;
-
-        System.out.println("The Query String: " + url);
+        String url = aliPayConfiguration.getServerUrl() + signedQueryString;
 
         attrs.put("href", url);
         return attrs;
